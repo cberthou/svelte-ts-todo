@@ -2,6 +2,7 @@
 	import { createTodo } from "./model/Todo";
 	import type { Todo } from "./model/Todo";
 	import TodoList from "./TodoList.svelte";
+	import CreateTodo from "./CreateTodo.svelte";
 	import type { Id } from "./model/Id";
 	import { transfer } from "./util/ArrayUtil";
     let todoList: Todo[] = [
@@ -21,6 +22,10 @@
 	function undoTask(id: Id) {
 		[doneList, todoList] = transfer("id", id, doneList, todoList);
 	}
+
+	function onCreate(name: string) {
+		todoList = [...todoList, createTodo(name)];
+	}
 </script>
 
 <main>
@@ -28,6 +33,9 @@
 	<div class="todoContainer">
 		<TodoList name="Todo" todos={todoList} onToggle={doTask}></TodoList>
 		<TodoList name="Done" todos={doneList} onToggle={undoTask}></TodoList>
+	</div>
+	<div>
+		<CreateTodo onCreate={onCreate} />
 	</div>
 </main>
 
